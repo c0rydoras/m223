@@ -7,11 +7,11 @@ using Moq;
 
 namespace L_Bank.Test.Concurrent;
 
-public class UnitTest1
+public class ExampleWithSqlServer
 {
     private readonly Mock<IOptions<DatabaseSettings>> _databaseSettingsMock;
     
-    public UnitTest1()
+    public ExampleWithSqlServer()
     {
         _databaseSettingsMock = new Mock<IOptions<DatabaseSettings>>();
         _databaseSettingsMock.Setup(x => x.Value).Returns(new DatabaseSettings
