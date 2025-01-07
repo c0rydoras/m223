@@ -43,8 +43,10 @@ Sonstiges:
 
 #### appsettings.json
 
-Passen Sie das Appsettings an, sodass sie die Werte aus ihrem .env file verwenden.
+Erstellen Sie ein Appsettings.json, sodass sie die Werte aus ihrem .env file verwenden. 
 
 
-Wenn all dies installiert ist, sollten sie das Frontend und Backend starten können.
+Wenn all dies gemacht ist, sollten sie das Frontend und Backend starten können.
 Dieses finden sie im Repo unter `frontend` und `backend`.
+
+Testen Sie das und loggen Sie sich ein
