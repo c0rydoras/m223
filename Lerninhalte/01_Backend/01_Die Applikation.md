@@ -31,7 +31,7 @@ Es wurde schon ein Grossteil des Programms erstellt. Schauen Sie sich mal das Ba
 
 Die Applikation besteht aus 3 Projekten. 
 
-Cli, Core und DbAccess.Das Web Projekt wird in diesem Auftrag nicht benötigt und kann ignoriert werden.
+Cli, Core und DbAccess. Das Web Projekt wird in diesem Auftrag nicht benötigt und kann ignoriert werden.
 
 Im Main Projekt "Cli" befindet sich die Datei Program.cs und das Command Line interface
 
@@ -64,7 +64,7 @@ werden?
 
 
 Bringen Sie das Programm zum Laufen und sehen Sie sich mit dem «SQL Server
-Management Studio» die Tabellen an.
+Management Studio» die Tabellen an. (Falls ihrMariaDb verwendet ist eventuell HeidiSQL oder ähnliche Tools einfacher)
 Bringen Sie folgenden Ablauf des Programms in die korrekte Reihenfolge:
 1. Es werden alle Ledgers (Kontos) abgefragt und ausgegeben.
 2. Das Geld in allen Ledgers wird am Ende zusammengezählt und ausgegeben.

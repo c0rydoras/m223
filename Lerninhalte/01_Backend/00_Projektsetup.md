@@ -4,6 +4,7 @@ Zum start mit dem Modul 223, müssen wir unsere Geräte bereit machen für die E
 
 ### Datenbank Setup
 
+Falls Sie bereits SQLExpress oder MariaDB lokal installiert haben, brauchen Sie das Docker Setup nicht.
 
 ### Via Docker
 
