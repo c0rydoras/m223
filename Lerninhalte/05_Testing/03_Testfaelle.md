@@ -12,7 +12,6 @@ Nehmen Sie an, es existieren folgende Anforderungen:
 
 Gehen Sie davon aus, dass Ihre Applikation nach den Anforderungen entwickelt wurde und keine Features fehlen.
 
-
 ## Aufgabenstellung
 
 Sie sollen für die Softwarequalitätssicherung Testfälle erstellen.
@@ -38,12 +37,14 @@ Tipps:
 
 Welche Tests eignen sich besser als explorative Testfälle, weil sie keine klaren ein- und Ausgaben haben?
 
-
 ### Teilaufgabe 2: Testfälle
+
 Formulieren Sie die Testfälle korrekt aus, also mit Testfallnummer, getestete Anforderung, konkreter Eingabe und konkreter Ausgabe.
 
 ### Teilaufgabe 3: Exploratives Testen
+
 Schreiben Sie eine Kurze aber klare Anleitung für das explorative Testen in der Form:
+
 - Zu testende Anforderungen
 - Rahmenbedingungen: Auf was soll geachtet werden
 - Testideen

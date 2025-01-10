@@ -14,8 +14,7 @@ Installieren Sie Docker. Gehen Sie dabei professionell vor und informieren Sie s
 
 Erstellen sie ein .env file, sie können auch das env.sample file kopieren und anpassen.
 
-Starten Sie den Container mit der MariaDB. 
-
+Starten Sie den Container mit der MariaDB.
 
 ### Dev Setup
 
@@ -25,17 +24,18 @@ Dieses finden sie [hier](https://github.com/GF3R/223-ma-app)
 Falls noch nicht installiert, laden Sie sich folgende Tools herunter:
 
 Für die Frontendentwicklung:
+
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Node.js](https://nodejs.org/en/)
 - [NPM](https://www.npmjs.com/)
-Optional können Sie sich auch [NVM](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) installieren, um zwischen verschiedenen Node Versionen zu wechseln.
-
+  Optional können Sie sich auch [NVM](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) installieren, um zwischen verschiedenen Node Versionen zu wechseln.
 
 Für die Backendentwicklung:
+
 - [Visual Studio](https://visualstudio.microsoft.com/de/vs/)
-oder auch 
+  oder auch
 - [Rider](https://www.jetbrains.com/rider/)
-für die abenteuerlustigen unter uns:
+  für die abenteuerlustigen unter uns:
 - [VS Code](https://code.visualstudio.com/)
 
 Sonstiges:
@@ -44,8 +44,7 @@ Sonstiges:
 
 #### appsettings.json
 
-Erstellen Sie ein Appsettings.json, sodass sie die Werte aus ihrem .env file verwenden. 
-
+Erstellen Sie ein Appsettings.json, sodass sie die Werte aus ihrem .env file verwenden.
 
 Wenn all dies gemacht ist, sollten sie das Frontend und Backend starten können.
 Dieses finden sie im Repo unter `frontend` und `backend`.

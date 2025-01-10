@@ -1,14 +1,18 @@
 # Transaktionen Teil 2
 
 ## Ausgangslage
+
 Sie haben das Programm für die L-Bank, das leider Geld erzeugt und vernichtet.
 Sie haben auch das Theoretische Wissen über Transaktionen und den Ablauf schon durchgespielt.
 
 ## Aufgabenstellung
+
 Fixen Sie die L-Bank.
 
 ### Teilaufgabe 1: Transaktionen
-Ersetzen Sie die Funktionen, Book, GetAllLedgers und GetTotalMoney  im LedgerRepository durch den Code unterhalb. 
+
+Ersetzen Sie die Funktionen, Book, GetAllLedgers und GetTotalMoney im LedgerRepository durch den Code unterhalb.
+
 ```csharp
 
 
@@ -139,7 +143,7 @@ Ersetzen Sie die Funktionen, Book, GetAllLedgers und GetTotalMoney  im LedgerRep
 
 Passen sie zudem das Interface entsprechend an.
 
-Wenn Sie dies gemacht haben, passen Sie das Programm.CS an, Sodass die Zeile "Simple.Run();" auskommentiert wird und die Zeile "WithTransactions.Run();" einkommentiert wird. Danach sollte es so aussehen: 
+Wenn Sie dies gemacht haben, passen Sie das Programm.CS an, Sodass die Zeile "Simple.Run();" auskommentiert wird und die Zeile "WithTransactions.Run();" einkommentiert wird. Danach sollte es so aussehen:
 
 ```csharp
 // Simple.Run(ledgerRepository);
@@ -157,7 +161,8 @@ Da die Operationen in «LedgerRepository.cs» in der Transaktion ausgeführt wer
 Starten Sie das Programm und vergewissern Sie sich, dass es im Singleusermodus noch läuft.
 
 ### Teilaufgabe 2: Ausgabe
-Geben Sie bei jeder erfolgreichen Transaktion einen Punkt, für jedes Rollback ein «R» und für jeden Rollbackfehler ein «E» aus. 
+
+Geben Sie bei jeder erfolgreichen Transaktion einen Punkt, für jedes Rollback ein «R» und für jeden Rollbackfehler ein «E» aus.
 
 Starten Sie das Programm mehrfach.
 

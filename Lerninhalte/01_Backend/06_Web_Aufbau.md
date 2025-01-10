@@ -4,7 +4,7 @@ Sie haben erkannt, dass es für Multiuser Applikationen meistens Transaktionen u
 
 ## Aufgabenstellung
 
-Mit dem Backend haben wir uns ja bereits mehrfach auseinander gesetzt. 
+Mit dem Backend haben wir uns ja bereits mehrfach auseinander gesetzt.
 Schauen Sie sich jetzt auch mal das ".Web"-Projekt an.
 
 Schauen Sie sich das Projekt an und versuchen Sie folgende Fragen zu beantworten:

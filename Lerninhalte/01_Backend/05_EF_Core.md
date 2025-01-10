@@ -8,7 +8,6 @@ Bauen sie die bestehende Applikation so um, dass sie EF Core verwendet.
 
 [Installieren Sie EF Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-
 [Erste Schritte mit EF Core](https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli)
 
 ### Teilaufgabe 1: Anfragen anpassen

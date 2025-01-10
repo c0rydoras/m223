@@ -1,28 +1,31 @@
 # Sicherheitsüberlegungen für die Architektur
 
 ## Ausgangslage
+
 Sie haben mit der L-Bank eine simple Multiuser-Datenbank-Applikation
 entworfen. Allerdings wurden da keine Sicherheitsüberlegungen gemacht.
 In diesem Auftrag soll einleuchtend gezeigt werden, warum es eine Multitier-Architektur braucht.
 
 Nehmen Sie an, Sie haben eine Applikation wie ein icket-Reservationssystem,
-eine Bank, eine Dating-Applikation oder eine Schulverwaltungssoftware. 
+eine Bank, eine Dating-Applikation oder eine Schulverwaltungssoftware.
 Alle diese Applikationen haben folgende [Epics]() gemeinsam:
 
 - Die Benutzer:innen sollen mit einer grafische Benutzerschnittstelle (GUI) arbeiten können.
 - Alle Benutzer:innen sollen auf die gleiche Datenbasis Zugriff haben
-(«greifen auf die gleiche Datenbank zu»)
+  («greifen auf die gleiche Datenbank zu»)
 - Die Zugriffe können gleichzeitig erfolgen.
 
 ## Aufgabenstellung
+
 Bestimmen Sie eine korrekte und vernünftige Architektur.
 
 ### Teilaufgabe 1: Hypothese
 
 Laut Aufgabenstellung haben Sie folgende Komponenten:
+
 - Ein Programm, dass das GUI darstellt.
 - Eine Business-Logik (dort, wo die Aufgaben erledigt werden: Buchungen in einer Konto-Applikation, Absenzen zählen in einer Schulverwaltung,Matches generieren in einer Dating-Applikation. Also dort «wo die Musik
-spielt»).
+  spielt»).
 - Eine Datenbank.
 - Da Sie eine Datenbank haben, brauchen Sie noch ein Netzwerk
 
@@ -52,6 +55,7 @@ angelegt. Damit kann die Rechteverwaltung der Datenbank verwendet werden.
 Grundsätzlich können Sie für BenutzerInnen die Rechte zum Zugriff auf Tabellen (einfügen, löschen, ändern des Schemas, …) geben
 
 Beantworten Sie folgende Fragen zu Ihrer Hypothese:
+
 - Wie kommen die Daten zur Datenbank?
 - Was befindet sich auf den Rechner der Benutzer:innen?
 - Was befindet sich auf einem Server?
@@ -81,7 +85,7 @@ und starten Sie es. [2-Tier-Security-Release](./Beispielprogramm/2-Tier-Security
 
 Starten Sie dotPeek und öffnen Sie die exe-Datei. Sie sehen den Quellcode.
 
-Wählen Sie «2-Tier-Security», «_2_Tier_Security», «Form1» und dann «Form1.cs»
+Wählen Sie «2-Tier-Security», «\_2_Tier_Security», «Form1» und dann «Form1.cs»
 
 Fällt Ihnen etwas – für die Betreiber der Applikation – unangenehmes auf?
 Was ziehen Sie daraus für Schlüsse?
@@ -93,7 +97,6 @@ Applikation gespeichert werden.
 
 Nun gibt es ein neues Problem. Nehmen Sie an, eine Benutzerin möchte etwas buchen:
 Natürlich darf diese Person nur von ihrem eigenen Konto buchen! Der angelegte Benutzer muss aber das Änderungsrecht auf diese Tabelle haben, sonst kann gar nicht gebucht werden! Natürlich wird das vom GUI verhindert, aber was würden Sie als kreative/r Hacker:in vorschlagen?
-
 
 ### Teilaufgabe 3: Lösung
 

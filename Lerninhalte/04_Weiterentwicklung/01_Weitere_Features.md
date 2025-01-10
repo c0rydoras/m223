@@ -1,6 +1,6 @@
 # Weiterentwicklung (Fallbeschreibung)
 
-Die LBank hat nun ein grobes Back- und Frontend. Es fehlen jedoch noch einige Features, um die Anwendung zu vervollständigen. 
+Die LBank hat nun ein grobes Back- und Frontend. Es fehlen jedoch noch einige Features, um die Anwendung zu vervollständigen.
 
 Im ersten Schritt bauen wir noch die "Buchen" Funktion ein. Diese soll es ermöglichen, dass ein Benutzer eine Buchung tätigen kann.
 
@@ -8,6 +8,7 @@ Im ersten Schritt bauen wir noch die "Buchen" Funktion ein. Diese soll es ermög
 
 Die «Buchen»-Funktion soll einen gegebenen Betrag von einem Konto auf ein anderes übertragen. Zusätzlich soll es nicht möglich sein, mit einer Buchung den Kontostand unter 0 zu bringen. Sie haben folgende Operationen zur
 Verfügung:
+
 - Betrag von Konto X lesen
 - Betrag von Konto X ändern
 - Konto X in der Datenbank ändern
@@ -32,6 +33,7 @@ Implementieren Sie im Frontend den API-Service und testen Sie die Buchung in der
 
 Nun sind sie gefragt, bauen Sie weitere Features ein, die Sie für sinnvoll halten.
 z.b.:
+
 - Konto löschen
 - Konto erstellen
 - Konto umbenennen
