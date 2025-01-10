@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Ledger } from '../models/ledger.interface';
-import { AuthService } from './auth.service';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Ledger } from "../models/ledger.interface";
+import { AuthService } from "./auth.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LedgerService {
-  private apiUrl = 'http://localhost:5000/api/v1';
+  private apiUrl = "http://localhost:5000/api/v1";
 
   constructor(
     private http: HttpClient,
@@ -24,7 +24,11 @@ export class LedgerService {
     return new Observable<Ledger[]>();
   }
 
-  transferFunds(fromLedgerId: number, toLedgerId: number, amount: number): Observable<unknown> {
+  transferFunds(
+    fromLedgerId: number,
+    toLedgerId: number,
+    amount: number,
+  ): Observable<unknown> {
     const payload = {
       fromLedgerId,
       toLedgerId,
