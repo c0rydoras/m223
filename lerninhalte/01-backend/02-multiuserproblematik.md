@@ -115,7 +115,7 @@ wie man einen Wert aus der Datenbank ausliest.
 Ergänzen Sie LedgerRepository.Book(…) wie folgt.
 
 ```csharp
-public static void Book(decimal amount, Ledger from, Ledger to)
+public void Book(decimal amount, Ledger from, Ledger to)
 {
     from.LoadBalance();
     from.Balance -= amount;
