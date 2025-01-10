@@ -2,7 +2,6 @@
 name: bank
 
 services:
-
   frontend:
     build: ./frontend
     ports:
@@ -11,7 +10,13 @@ services:
   backend:
     build: ./backend
     ports:
-      - 5000:80
+      - 5000:5000
+    environment:
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - SERVICE_URL=http://localhost:5000
 
   mariadb:
     container_name: "bank-db"
@@ -27,5 +32,6 @@ services:
       - mariadb_data:/var/lib/mysql
     security_opt:
       - no-new-privileges=true
+
 volumes:
   mariadb_data:
