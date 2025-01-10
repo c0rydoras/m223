@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Data;
 using Bank.Core.Models;
 using Microsoft.Extensions.Options;
@@ -9,79 +10,132 @@ public class LedgerRepository(IOptions<DatabaseSettings> databaseSettings) : ILe
 {
     private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
 
-    public void Book(decimal amount, Ledger from, Ledger to)
+
+
+    public string Book(decimal amount, Ledger from, Ledger to)
     {
-        from.Balance -= amount;
-        Update(from);
-        // Complicate calculations
-        Thread.Sleep(250);
-        to.Balance += amount;
-        Update(to);
+        using (MySqlConnection conn = new MySqlConnection(this._databaseSettings.ConnectionString))
+        {
+            conn.Open();
+            using (MySqlTransaction transaction = conn.BeginTransaction(IsolationLevel.Serializable))
+            {
+                try
+                {
+                    amount = 10;
+                    from.Balance = this.GetBalance(from.Id, conn, transaction) ?? throw new ArgumentNullException();
+                    from.Balance -= amount;
+                    this.Update(from, conn, transaction);
+                   // Complicate calculations
+                    Thread.Sleep(250);
+                    to.Balance = this.GetBalance(to.Id, conn, transaction) ?? throw new ArgumentNullException();
+                    to.Balance += amount;
+                    this.Update(to, conn, transaction);
+
+                    // Console.WriteLine($"Booking {amount} from {from.Name} to {to.Name}");
+
+                    transaction.Commit();
+                    return ".";
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    //Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                        return "R";
+                    }
+                    catch (Exception ex2)
+                    {
+                        // Handle any errors that may have occurred on the server that would cause the rollback to fail.
+                        //Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        //Console.WriteLine("  Message: {0}", ex2.Message);
+                        return "E";
+                    }
+                }
+            }
+        }
     }
-    
+
     public decimal GetTotalMoney()
     {
-        const string query = $"SELECT SUM(balance) AS TotalBalance FROM {Ledger.CollectionName}";
+        const string query = @$"SELECT SUM(balance) AS TotalBalance FROM {Ledger.CollectionName}";
         decimal totalBalance = 0;
 
-        using var conn = new MySqlConnection(_databaseSettings.ConnectionString);
-        conn.Open();
-        using var cmd = new MySqlCommand(query, conn);
-        var result = cmd.ExecuteScalar();
-        if (result != DBNull.Value)
+        using (MySqlConnection conn = new MySqlConnection(this._databaseSettings.ConnectionString))
         {
-            totalBalance = Convert.ToDecimal(result);
-        }
+            conn.Open();
+            using (MySqlTransaction transaction = conn.BeginTransaction(IsolationLevel.ReadCommitted))
+            {
+                try
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn, transaction))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        if (result != DBNull.Value)
+                        {
+                            totalBalance = Convert.ToDecimal(result);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
 
-        return totalBalance;
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // Handle any errors that may have occurred on the server that would cause the rollback to fail.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                }
+            }
+
+            return totalBalance;
+        }
     }
+
 
     public IEnumerable<Ledger> GetAllLedgers()
     {
-        var allLedgers = new List<Ledger>();
+        var allLedgers = new HashSet<Ledger>();
 
-        const string query = $"SELECT id, name, balance FROM {Ledger.CollectionName} ORDER BY name";
-        bool worked;
-        do
+        const string query = @$"SELECT id, name, balance FROM {Ledger.CollectionName}";
+        using (MySqlConnection conn = new MySqlConnection(this._databaseSettings.ConnectionString))
         {
-            worked = true;
-            using var conn = new MySqlConnection(_databaseSettings.ConnectionString);
             conn.Open();
-            using var transaction = conn.BeginTransaction(IsolationLevel.Serializable);
-            try
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                using var cmd = new MySqlCommand(query, conn, transaction);
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    var id = reader.GetInt32(reader.GetOrdinal("id"));
-                    var name = reader.GetString(reader.GetOrdinal("name"));
-                    var balance = reader.GetDecimal(reader.GetOrdinal("balance"));
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(reader.GetOrdinal("id"));
+                        string name = reader.GetString(reader.GetOrdinal("name"));
+                        decimal balance = reader.GetDecimal(reader.GetOrdinal("balance"));
 
-                    allLedgers.Add(new Ledger { Id = id, Name = name, Balance = balance });
+                        allLedgers.Add(new Ledger()
+                        {
+                            Balance = balance,
+                            Id = id,
+                            Name = name
+                        });
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                // Attempt to roll back the transaction.
-                try
-                {
-                    transaction.Rollback();
-                    if (ex.GetType() != typeof(Exception))
-                        worked = false;
-                }
-                catch (Exception ex2)
-                {
-                    // Handle any errors that may have occurred on the server that would cause the rollback to fail.
-                    if (ex2.GetType() != typeof(Exception))
-                        worked = false;
-                }
-            }
-        } while (!worked);
+        }
 
-        return allLedgers;
+        return allLedgers.ToImmutableHashSet<Ledger>();
     }
-    
+
     public Ledger? SelectOne(int id)
     {
         Ledger? retLedger = null;
@@ -152,10 +206,17 @@ public class LedgerRepository(IOptions<DatabaseSettings> databaseSettings) : ILe
         conn.Open();
         Update(ledger, conn, null);
     }
-    
-    public decimal? GetBalance(int ledgerId, MySqlConnection conn, MySqlTransaction transaction)
+
+    public decimal? GetBalance(int ledgerId)
     {
-        const string query = "SELECT balance FROM ledgers WHERE id=@Id";
+        using var conn = new MySqlConnection(_databaseSettings.ConnectionString);
+        conn.Open();
+        return GetBalance(ledgerId, conn, null);
+    }
+
+    public decimal? GetBalance(int ledgerId, MySqlConnection conn, MySqlTransaction? transaction)
+    {
+        const string query = "SELECT balance FROM Ledgers WHERE id=@Id";
 
         using var cmd = new MySqlCommand(query, conn, transaction);
         cmd.Parameters.AddWithValue("@Id", ledgerId);
