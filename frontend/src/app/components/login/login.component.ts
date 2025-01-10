@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Token } from '../../models/token.interface';
     imports: [CommonModule, FormsModule],
     providers: [HttpClient],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     username = '';
     password = '';
     errorMessage = '';
@@ -23,6 +23,12 @@ export class LoginComponent {
         private authService: AuthService,
         private router: Router,
     ) {}
+
+    ngOnInit() {
+        if (this.authService.isLoggedIn()) {
+            this.router.navigate(['ledgers']);
+        }
+    }
 
     onSubmit() {
         const loginData = { username: this.username, password: this.password };
