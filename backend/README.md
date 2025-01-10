@@ -9,6 +9,7 @@ Kopiere (in Bank.Cli und Bank.Web) `appsettings.sample.json` in `appsettings.jso
 ### Teilaufgabe 1 - Analyse
 
 Übertrag von Konto Quelle auf Konto Ziel:
+
 - Betrag validieren -> Betrag muss > 0 sein
 - Kontostand von Konto Quelle auslesen
 - Überprüfen ob Betrag <= Kontostand Quelle
