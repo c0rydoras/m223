@@ -1,5 +1,18 @@
+---
 name: bank
+
 services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+
+  backend:
+    build: ./backend
+    ports:
+      - 5000:80
+
   mariadb:
     container_name: "bank-db"
     image: mariadb:11.6.2
