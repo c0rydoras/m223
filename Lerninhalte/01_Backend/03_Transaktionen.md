@@ -26,14 +26,14 @@ CREATE TABLE [dbo].[ledgers](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](50) NOT NULL,
 	[balance] [money] NOT NULL,
-PRIMARY KEY CLUSTERED 
+PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-SET IDENTITY_INSERT [dbo].[ledgers] ON 
+SET IDENTITY_INSERT [dbo].[ledgers] ON
 GO
 INSERT [dbo].[ledgers] ([id], [name], [balance]) VALUES (16, N'Manitu AG', 100.0000)
 GO
@@ -47,18 +47,21 @@ GO
 ```
 
 ## Aufgabenstellung
+
 In dieser Aufgabe werden Transaktionen theoretisch und praktisch erkundet.
+
 ### Teilaufgabe 1 Theoretische Analyse
+
 In folgender Tabelle läuft die Zeit von oben nach unten. P0 bis P2 sind unterschiedliche Prozesse (Programme, User, …).
 a, b, c sind unterschiedliche Datensätze.
 
 ![](2024-11-22-09-52-36.png)
 
-
 Gehen Sie davon aus, dass wenn ein Prozess einen Datensatz (a, b oder c) liest
 und danach schreibt, er damit arbeitet und die Datenbank zu diesem Zeitpunkt
 inkonsistent ist.
 Versuchen Sie zu identifizieren, wo folgende Probleme auftreten können:
+
 - Dirty Read
 - Non-repeatable read
 - Phantom Read
@@ -73,6 +76,7 @@ Nehmen Sie folgenden Ablauf für die L-Bank:
 ![](2024-11-22-09-57-22.png)
 
 Versuchen Sie zu identifizieren, wo folgende Probleme auftreten können:
+
 - Dirty Read
 - Non-repeatable read
 
@@ -101,20 +105,21 @@ Bereiten Sie folgende Dinge vor:
 - Öffnen Sie drei Fenster für P0, P1 und P3:
 
 Schreiben Sie statt den Anweisungen nun die SQL-Befehle in die Tabelle.
+
 - P0 soll 20 von a zu b buchen.
 - P1 soll 30 von b zu a buchen.
 
 ![](2024-11-22-10-07-21.png)
 
-| Zeit | P0 | P1 | P2 |
-| --- | --- | --- | --- |
-| 0 | | | |
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
+| Zeit | P0  | P1  | P2  |
+| ---- | --- | --- | --- |
+| 0    |     |     |     |
+| 1    |     |     |     |
+| 2    |     |     |     |
+| 3    |     |     |     |
+| 4    |     |     |     |
+| 5    |     |     |     |
+| 6    |     |     |     |
 
 Gehen Sie nun folgendermassen vor:
 
@@ -123,6 +128,7 @@ sonst werden sie mehrfach ausgeführt.
 
 **Zeit 0:**
 Öffnen Sie den zweiten SQL-Tab, fragen Sie den Kontostand von a ab und schreiben Sie ihn auf:
+
 ```sql
 SELECT balance FROM ledgers WHERE id = 16
 ```
@@ -182,6 +188,6 @@ Stellen Sie für die ersten beiden SQL-Tabs die Isolation «Serializeable» ein 
 
 Starten Sie in jedem der drei Tabs eine Transaktion, indem Sie «BEGIN TRANSACTION;» eingeben und auf «Execute» klicken.
 
-Führen Sie die Befehle aus der Tabelle  erneut aus.
+Führen Sie die Befehle aus der Tabelle erneut aus.
 
 Was fällt Ihnen auf?

@@ -1,13 +1,15 @@
 # Authentifizierung
 
-Diese Multiuserapp braucht auch eine Authentifizierung und eine 
+Diese Multiuserapp braucht auch eine Authentifizierung und eine
 Autorisierung.
 
 ## Aufgabenstellung
+
 Finden Sie heraus, wie die Authentifizierung und die Autorisierung gelöst
 wurden.
 
 ## Teilaufgabe 1: Authentifizierung
+
 Beantworten Sie anhand des Quellcodes folgende Fragen:
 
 - Findet eine Authentisierung statt?
@@ -24,5 +26,5 @@ Benutzen Sie JSON-MAN oder POSTMAN und führen Sie folgende Schritte aus:
 
 1. Rufen Sie die Liste aller Ledgers ohne Authentifizierung auf, was passiert?
 2. Loggen Sie sich als ein User mit der korrekten Rolle ein und rufen Sie die
-Liste aller Ledgers auf. Was passiert?
+   Liste aller Ledgers auf. Was passiert?
 3. Loggen Sie sich als ein User mit einer Rolle ohne Rechte ein und rufen Sie die Liste aller Ledgers auf. Was passiert?

@@ -12,7 +12,6 @@ Erstellen Sie ein eigenes Projekt für «normale» Unittests. Erstellen Sie Unit
 
 Frischen Sie Ihr Wissen über Unittests auf mit den entsprechenden Modulen oder Quellen wie https://xunit.net/docs/getting-started/netcore/visual-studio oder https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test.
 
-
 erstellen Sie folgendes Grundgerüst:
 
 ```csharp
@@ -36,7 +35,7 @@ namespace LEdgerModelTests
         {
             Assert.True(true, "Test not implemented");
         }
-    }    
+    }
 }
 
 ```
@@ -44,7 +43,7 @@ namespace LEdgerModelTests
 Mit «output» können Informationen aus den Tests ausgegeben werden.
 
 Die «Collection» verhindert das parallele Ausführen der Tests Erstellen Sie Unittests nach dem «FIRST-U»1 und dem «Arrange/Act/Assert» Prinzip, so dass Sie eine vernünftige Coverage in den relevanten Klassen imBackend erreichen.
-Testen Sie auch, dass Fehlerzustände nicht auftreten können, also beispielsweise nicht gebucht wird, wenn die Buchung grösser ist als die zur Verfügung stehende Balance oder dass ein Ledger nicht geändert wird bei falscher ID. Testen Sie auch Edge-Cases, wie wenn beispielsweise der Genaue Betrag auf einem Ledger gebucht wird, so dass die Balance nachher 0 ist. Da wir für die Multiusertests die «echte» Datenbank verwenden, Mocken wir die Datenbank nicht. In einer echten Applikation würden Frameworks wie «Moq» für diese Aufgabe verwendet. 
+Testen Sie auch, dass Fehlerzustände nicht auftreten können, also beispielsweise nicht gebucht wird, wenn die Buchung grösser ist als die zur Verfügung stehende Balance oder dass ein Ledger nicht geändert wird bei falscher ID. Testen Sie auch Edge-Cases, wie wenn beispielsweise der Genaue Betrag auf einem Ledger gebucht wird, so dass die Balance nachher 0 ist. Da wir für die Multiusertests die «echte» Datenbank verwenden, Mocken wir die Datenbank nicht. In einer echten Applikation würden Frameworks wie «Moq» für diese Aufgabe verwendet.
 
 Die gesuchten Fachleute sind diejenigen, die ChatGPT für die mühsamen Arbeiten verwenden und den Output verstehen und korrigieren können. Um etwas zu verstehen, muss die mühsame Arbeit normalerweise zuerst selbst erledigt werden. Finden Sie also eine gute Mischung zwischen selbst erstellten Unittests und der Hilfe von ChatGPT.
 
@@ -60,9 +59,9 @@ Repeatable: Durch die Parallelität wird nicht bei jedem Durchgang genau der gle
 
 Erstellen Sie ein eigenes Projekt und nennen Sie es «L-Bank.Concurrent.Test»
 
-Erstellen Sie eine Testklasse nach folgendem Muster: 
+Erstellen Sie eine Testklasse nach folgendem Muster:
 
-```csharp	
+```csharp
 
 using System;
 using Xunit.Abstractions;
@@ -111,4 +110,3 @@ Wenn beim Testen ein Fehler angezeigt wird, dann können Sie die obigen Hilfen v
 Das Ausführen dieses Tests kann lange dauern (mehrt als 30 Sekunden). Versuchen Sie, das Programm und die Tests so anzupassen, dass alles nach Vorgaben funktioniert.
 
 Wenn von Beginn weg alles funktioniert, entfernen Sie die Transaktionen und schauen Sie, ob wir sie überhaupt brauchen und ob die Unittests das nachweisen können.
-

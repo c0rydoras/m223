@@ -3,6 +3,7 @@
 Um sicherzustellen, dass Ihre Applikation auch unter erhöhter Last richtig funktioniert testen Sie auch diesen Aspekt.
 
 ## Aufgabenstellung
+
 Erstellen Sie Last-Tests, die spezifisch auf die Multiuserprobleme testen.
 
 ### Teilaufgabe 1: Basis aufbauen
@@ -41,21 +42,23 @@ Beide Methoden sollen das API verwenden, und nicht direkt Code aufrufen. Tipp: S
 
 Hinweis: Das Backend muss natürlich laufen, damit es die API-Anfragen beantworten kann.
 
-
 ###Teilaufgabe 2: NBomber
 
 Lesen Sie sich auf https://blog.noser.com/lasttests-mit-nbomber/ und https://nbomber.com/docs/getting-started/overview ein, was NBomber ist und wie es angewendet wird.
 
 Installieren Sie folgende Nuget-Packages in dieses neue Projekt:
+
 - NBomber
 - NBomber.Http
 
 Um zu testen, ob NBomber grundsätzlich funktioniert, integrieren Sie den Code aus https://nbomber.com/docs/getting-started/hello_world_tutorial#create-production-ready-http-load-test (Abschnitt «Create production-ready HTTP load test») in den bestehenden Code mit ein.
 
 Machen Sie folgende Anpassungen:
+
 - Die URL sollte https://localhost:7183/api/v1/lbankinfo sein.
 - Lassen Sie einen Report erstellen und ergänzen Sie den entsprechenden Codeabschnitt:
-```csharp	
+
+```csharp
 NBomberRunner
 .RegisterScenarios(scenario)
 .WithReportFileName("fetch_users_report")
@@ -65,10 +68,9 @@ NBomberRunner
 ```
 
 - Fügen Sie am Ende «Console.ReadKey();» ein.
-Wenn Sie nun das Backend und dieses Programm starten, sollten Sie eine Ausgabe wie Folgt sehen:
+  Wenn Sie nun das Backend und dieses Programm starten, sollten Sie eine Ausgabe wie Folgt sehen:
 
 ![nBomber](image.png)
-
 
 Ganz unten sehen Sie einen Abschnitt «Reports saved in …». In diesem Ordner sollten Sie eine HTML-Datei mit allen Resultaten finden.
 
@@ -80,15 +82,17 @@ Fragen Sie zu Beginn und am Ende über das API alle Ledgers ab. Vergleichen
 Sie den Geldbetrag am Ende und geben Sie auf der Konsole aus, ob sich der
 Geldbetrag geändert hat. Im Idealfall sollte es etwa so aussehen:
 
-
 ![Beispiel mit Money output](image-1.png)
 
 ### Teilaufgabe 4: Testen des Booking APIs
+
 Schreiben Sie das Beispiel so um, dass Sie das Booking API stresstesten können. Studieren Sie den Report. Was bedeuten die «Conflict» Rückmeldungen im Szenario?
 
 Hinweise:
+
 - Sie können Sich am Frontend orientieren, dass das Backend aufruft.
 - Der Aufruf ist wie folgt:
+
 ```csharp
 var request =
 Http.CreateRequest("POST", "https://localhost:7183/api/v1/bookings")
