@@ -11,6 +11,8 @@ services:
     build: ./backend
     ports:
       - 5000:5000
+    depends_on:
+      - mariadb
     environment:
       - MARIADB_HOST=mariadb
       - MARIADB_DATABASE=${MARIADB_DATABASE}
