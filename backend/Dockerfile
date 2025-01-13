@@ -26,7 +26,8 @@ FROM base AS final
 
 WORKDIR /app
 
-ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000" \
+  APPROOT=/app
 
 COPY --from=publish /app/publish .
 COPY entrypoint.sh .
