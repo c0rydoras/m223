@@ -1,13 +1,13 @@
-﻿import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {AuthService} from './auth.service';
+﻿import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
-export class BookingService{
-    private apiUrl = "http://localhost:5000/api/v1";
+export class BookingService {
+    private apiUrl = 'http://localhost:5000/api/v1';
 
     constructor(
         private http: HttpClient,
