@@ -75,7 +75,7 @@ public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> d
     }
 
 
-    public Ledger? SelectOne(int id)
+    public Ledger SelectOne(int id)
     {
         return context.Ledgers.First(l => l.Id == id);
     }

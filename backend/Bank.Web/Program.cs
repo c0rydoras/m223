@@ -61,6 +61,7 @@ public static class Program
         builder.Services.AddTransient<IUserRepository, UserRepository>();
         builder.Services.AddTransient<ILoginService, LoginService>();
         builder.Services.AddTransient<IBookingRepository, BookingRepository>();
+        builder.Services.AddTransient<IBookingService, BookingService>();
             
         builder.Services.AddControllers();
 

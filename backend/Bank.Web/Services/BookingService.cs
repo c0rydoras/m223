@@ -1,6 +1,51 @@
-﻿namespace Bank.Web.Services;
+﻿using System.Data;
+using Bank.DbAccess.Data;
+using Bank.DbAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using IsolationLevel = System.Data.IsolationLevel;
 
-public class BookingService
+namespace Bank.Web.Services;
+
+public class BookingService(IBookingRepository bookingRepository, ILedgerRepository ledgerRepository, AppDbContext context) : IBookingService
 {
-    
+    public void Book(int sourceId, int destinationId, decimal amount, int retryCounter = 1)
+    {
+        if (amount < 0)
+        {
+            throw new ConstraintException("amount must be greater then 0");
+        }
+        
+        using var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable);
+        
+        var sourceLedger = ledgerRepository.SelectOne(sourceId);
+        if (amount > sourceLedger.Balance)
+        {
+            throw new ConstraintException($"amount must be smaller then or equal source balance: ({sourceLedger.Balance})");
+        }
+        
+        var destinationLedger = ledgerRepository.SelectOne(destinationId);
+
+        sourceLedger.Balance -= amount;
+        destinationLedger.Balance += amount;
+        
+        try
+        {
+            ledgerRepository.Update(sourceLedger);
+            ledgerRepository.Update(destinationLedger);
+            bookingRepository.AddBooking(sourceId, destinationId, amount);
+            transaction.Commit();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine($"Retry no. {retryCounter}");
+            if (retryCounter <= 5)
+            {
+                retryCounter++;
+                Book(sourceId,destinationId, amount, retryCounter);
+            }
+            Console.WriteLine("Aborting");
+            throw;
+        }
+    }
 }
