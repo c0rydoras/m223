@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
@@ -14,16 +14,12 @@ export class BookingService {
         private authService: AuthService,
     ) {}
 
-    makeBooking(fromLedgerId: number, toLedgerId: number, amount: number): Observable<unknown> {
+    makeBooking(sourceId: number, destinationId: number, amount: number): Observable<unknown> {
         const payload = {
-            fromLedgerId,
-            toLedgerId,
+            sourceId,
+            destinationId,
             amount,
         };
-        const token = this.authService.getToken();
-        if (token) {
-            return this.http.post(`${this.apiUrl}/ledgers/transfer`, payload);
-        }
-        return of(null);
+        return this.http.post(`${this.apiUrl}/Bookings`, payload);
     }
 }

@@ -4,11 +4,12 @@ import { Ledger } from '../../models/ledger.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-ledger',
     templateUrl: './ledger.component.html',
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, RouterModule],
     providers: [LedgerService, HttpClient],
 })
 export class LedgerComponent implements OnInit {
