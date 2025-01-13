@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-var configuration = new ConfigurationManager().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+var appsettingsPath = Environment.GetCommandLineArgs()[0].Split("bin")[0] + "appsettings.json";
+var configuration = new ConfigurationManager().AddJsonFile(appsettingsPath, optional: false, reloadOnChange: true).Build();
+
 var services = new ServiceCollection();
 
 var dbSettings = configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>() ?? throw new InvalidOperationException();

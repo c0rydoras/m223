@@ -10,6 +10,9 @@ frontend-dev:
 backend-dev:
     dotnet watch --environment Development --project backend/Bank.Web/Bank.Web.csproj
 
+cli-dev:
+    dotnet watch --environment Development --project backend/Bank.Cli/Bank.Cli.csproj
+
 setup-dotenv:
     @if [[ -e .env ]]; then exit; fi
     echo "MARIADB_ROOT_PASSWORD=$(head -c 24 /dev/urandom | base64 -w0)" >> .env
