@@ -32,4 +32,11 @@ export class LedgerService {
         };
         return this.http.post(`${this.apiUrl}/ledgers/transfer`, payload);
     }
+
+    createNew(name: string): Observable<unknown> {
+        const payload = {
+            name,
+        };
+        return this.http.post(`${this.apiUrl}/ledgers`, payload);
+    }
 }
