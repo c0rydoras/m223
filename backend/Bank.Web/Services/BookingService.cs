@@ -33,16 +33,20 @@ public class BookingService(IBookingRepository bookingRepository, ILedgerReposit
             ledgerRepository.Update(sourceLedger);
             ledgerRepository.Update(destinationLedger);
             bookingRepository.AddBooking(sourceId, destinationId, amount);
+            context.SaveChanges();
             transaction.Commit();
         }
         catch (Exception e)
         {
+            transaction.Rollback();
             Console.WriteLine(e);
             Console.WriteLine($"Retry no. {retryCounter}");
-            if (retryCounter <= 5)
+            if (retryCounter <= 20)
             {
                 retryCounter++;
+                Thread.Sleep(1000);
                 Book(sourceId,destinationId, amount, retryCounter);
+                return;
             }
             Console.WriteLine("Aborting");
             throw;
