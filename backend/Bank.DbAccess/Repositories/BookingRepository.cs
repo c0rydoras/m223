@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.DbAccess.Repositories;
 
-public class BookingRepository(IOptions<DatabaseSettings> settings, AppDbContext context) : IBookingRepository
+public class BookingRepository(AppDbContext context) : IBookingRepository
 {
-    private DatabaseSettings _settings = settings.Value;
-
     public void AddBooking(int sourceId, int destinationId, decimal amount)
     {
         var newBooking = new Booking();

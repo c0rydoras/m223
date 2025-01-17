@@ -1,26 +1,18 @@
 ﻿using Bank.Core.Helper;
 using Bank.Core.Models;
 using Bank.DbAccess.Data;
-using Microsoft.EntityFrameworkCore;
 
-namespace Bank.DbAccess;
+namespace SingleUserTests;
 
-public class DatabaseSeeder(AppDbContext context) : IDatabaseSeeder
+public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
 {
     private void SeedLedgers()
     {
-        if (context.Ledgers.Any())
-        {
-            return;
-        }
-
-        var moneyProvider = new Random();
-
         var seedLedgers = new List<Ledger>
         {
-            new() { Name = "Manitu AG", Balance = moneyProvider.Next(100, 10001) },
-            new() { Name = "Chrysalkis GmbH", Balance = moneyProvider.Next(100, 10001) },
-            new() { Name = "Smith & Co KG", Balance = moneyProvider.Next(100, 10001) },
+            new() { Name = "Manitu AG", Balance = 1000 },
+            new() { Name = "Chrysalkis GmbH", Balance = 1000 },
+            new() { Name = "Smith & Co KG", Balance = 1000 },
         };
 
         context.Ledgers.AddRange(seedLedgers);
@@ -29,11 +21,6 @@ public class DatabaseSeeder(AppDbContext context) : IDatabaseSeeder
 
     private void SeedUsers()
     {
-        if (context.Users.Any())
-        {
-            return;
-        }
-
         var seedUsers = new List<User>
         {
             new() { Username = "admin", PasswordHash = PasswordHelper.HashAndSaltPassword("adminpass"), Role = Roles.Administrators },
@@ -46,6 +33,7 @@ public class DatabaseSeeder(AppDbContext context) : IDatabaseSeeder
 
     public void Initialize()
     {
+        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
 

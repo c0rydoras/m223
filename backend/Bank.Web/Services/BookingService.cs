@@ -10,7 +10,7 @@ public class BookingService(IBookingRepository bookingRepository, ILedgerReposit
 {
     public void Book(int sourceId, int destinationId, decimal amount, int retryCounter = 1)
     {
-        if (amount < 0)
+        if (amount <= 0)
         {
             throw new ConstraintException("amount must be greater then 0");
         }
