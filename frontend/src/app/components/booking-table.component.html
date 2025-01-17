@@ -1,0 +1,30 @@
+<table class="w-full">
+    <thead>
+        <tr class="text-left align-bottom [&>th]:font-medium">
+            <th>Amount</th>
+            <th>From</th>
+            <th>To</th>
+            <th>When</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (booking of bookings(); track booking.id) {
+            @let biasLedger = bias();
+            <tr class="[&>td]:px-1 odd:bg-gray-200">
+                <td
+                    [class.text-red-500]="biasLedger ? biasLedger.id === booking.sourceId : false"
+                    [class.text-green-500]="biasLedger ? biasLedger.id === booking.destinationId : false"
+                >
+                    {{ booking.amount | currency }}
+                </td>
+                <td [class.text-neutral-600]="biasLedger ? biasLedger.id === booking.destinationId : false">
+                    <a [routerLink]="['/ledgers', booking.sourceId]">{{ booking.source?.name }}</a>
+                </td>
+                <td [class.text-neutral-600]="biasLedger ? biasLedger.id === booking.sourceId : false">
+                    <a [routerLink]="['/ledgers', booking.destinationId]">{{ booking.destination?.name }}</a>
+                </td>
+                <td>{{ booking.timestamp | date: 'HH:mm:ss YYYY-MM-dd' }}</td>
+            </tr>
+        }
+    </tbody>
+</table>

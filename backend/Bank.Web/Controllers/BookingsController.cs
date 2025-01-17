@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using Bank.Core.Models;
+using Bank.DbAccess.Repositories;
 using Bank.Web.Dto;
 using Bank.Web.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +11,24 @@ namespace Bank.Web.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class BookingsController(IBookingService bookingService) : ControllerBase
+public class BookingsController(IBookingService bookingService, IBookingRepository bookingRepository) : ControllerBase
 {
+    [HttpGet]
+    [Authorize(Roles = "Administrators,Users")]
+    public IEnumerable<Booking> Get()
+    {
+        var allBookings = bookingRepository.GetAllBookings();
+        return allBookings ;
+    }
+
+    [HttpGet("for/{id:int}")]
+    [Authorize(Roles = "Administrators,Users")]
+    public IEnumerable<Booking> GetBookingsForLedger(int id)
+    {
+        var bookings = bookingRepository.GetBookingsForLedger(id);
+        return bookings;
+    }
+
     [HttpPost]
     [Authorize(Roles = "Administrators")]
     public async Task<IActionResult> Post([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] BookingDto booking)
