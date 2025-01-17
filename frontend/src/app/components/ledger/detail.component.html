@@ -1,0 +1,8 @@
+@if (ledger) {
+    <div>
+        <h1 class="text-2xl mb-2 font-semibold">{{ ledger.name }}</h1>
+        <p>Balance: {{ ledger.balance | currency }}</p>
+    </div>
+} @else {
+    <p>loading...</p>
+}

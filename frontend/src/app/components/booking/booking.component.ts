@@ -5,6 +5,7 @@ import { Ledger } from '../../models/ledger.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-booking',
@@ -25,7 +26,10 @@ export class BookingComponent implements OnInit {
     constructor(
         private ledgerService: LedgerService,
         private bookingService: BookingService,
-    ) {}
+        private titleService: Title,
+    ) {
+        this.titleService.setTitle('Booking');
+    }
 
     ngOnInit(): void {
         this.loadLedgers();

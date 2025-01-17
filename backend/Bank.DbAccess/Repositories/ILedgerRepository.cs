@@ -10,4 +10,5 @@ public interface ILedgerRepository
     decimal GetTotalMoney();
     Ledger SelectOne(int id);
     void Update(Ledger ledger);
+    void Create(String name);
 }
