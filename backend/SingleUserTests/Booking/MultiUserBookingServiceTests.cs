@@ -21,8 +21,8 @@ namespace SingleUserTests.Booking
         [Fact]
         public void TestBookingParallel()
         {
-            const int numberOfBookings = 100;
-            const int users = 3;
+            const int numberOfBookings = 1000;
+            const int users = 10;
             var ledgers = _context.Ledgers.ToList();
 
             // Implementieren Sie hier die parallelen Buchungen
@@ -43,7 +43,7 @@ namespace SingleUserTests.Booking
 
                     var ledgerSource = ledgers[random.Next(0, ledgers.Count)];
                     var ledgerDestination = ledgers[random.Next(0, ledgers.Count)];
-                    bookingService.Book(ledgerSource.Id, ledgerDestination.Id,10);
+                    bookingService.Book(ledgerSource.Id, ledgerDestination.Id, 1);
                 }
             }
 

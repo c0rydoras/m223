@@ -1,5 +1,6 @@
 ﻿using Bank.Core.Models;
 using Bank.DbAccess.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 

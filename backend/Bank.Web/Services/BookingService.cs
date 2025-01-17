@@ -41,7 +41,7 @@ public class BookingService(IBookingRepository bookingRepository, ILedgerReposit
             transaction.Rollback();
             Console.WriteLine(e);
             Console.WriteLine($"Retry no. {retryCounter}");
-            if (retryCounter <= 20)
+            if (retryCounter <= 40)
             {
                 retryCounter++;
                 Thread.Sleep(1000);
