@@ -1,14 +1,11 @@
-using System.Collections.Immutable;
 using System.Data;
 using Bank.Core.Models;
 using Bank.DbAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using MySqlConnector;
 
 namespace Bank.DbAccess.Repositories;
 
-public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> databaseSettings)
+public class LedgerRepository(AppDbContext context)
     : ILedgerRepository
 {
 
