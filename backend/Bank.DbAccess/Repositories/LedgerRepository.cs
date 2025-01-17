@@ -85,4 +85,11 @@ public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> d
         context.Update(ledger);
         context.SaveChanges();
     }
+
+    public void Create(String name)
+    {
+        var ledger = new Ledger{Name = name, Balance = 0};
+        context.Add(ledger);
+        context.SaveChanges();
+    }
 }

@@ -1,7 +1,10 @@
 ﻿using Bank.Core.Models;
+using Bank.Web.Dto;
 using Bank.DbAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Bank.Web.Controllers;
 
@@ -31,4 +34,32 @@ public class LedgersController(ILedgerRepository ledgerRepository) : ControllerB
     {
         ledgerRepository.Update(ledger);
     }
+
+
+    [HttpPost]
+    [Authorize(Roles = "Administrators")]
+    public async Task<IActionResult> Post([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] LedgerDto ledger)
+    {
+
+        return await Task.Run(() =>
+        {
+            IActionResult response = Ok();
+
+            try
+            {
+                ledgerRepository.Create(ledger.name);
+            }
+            catch (ConstraintException ce)
+            {
+                return BadRequest(ce.Message);
+            }
+            catch (Exception)
+            {
+                response = Conflict();
+            }
+
+            return response;
+        });
+    }
+
 }
