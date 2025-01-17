@@ -80,7 +80,6 @@ public class LedgerRepository(AppDbContext context)
     public void Update(Ledger ledger)
     {
         context.Update(ledger);
-        context.SaveChanges();
     }
 
     public void Create(String name)
