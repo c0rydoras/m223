@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-ledger',
@@ -19,7 +20,12 @@ export class LedgerComponent implements OnInit {
     amount: number | null = null;
     transferMessage = '';
 
-    constructor(private ledgerService: LedgerService) {}
+    constructor(
+        private ledgerService: LedgerService,
+        private titleService: Title,
+    ) {
+        this.titleService.setTitle('Ledgers');
+    }
 
     ngOnInit(): void {
         this.loadLedgers();
