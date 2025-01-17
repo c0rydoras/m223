@@ -24,6 +24,15 @@ export class LedgerService {
         return new Observable<Ledger[]>();
     }
 
+    getLedger(id: string | number): Observable<Ledger> {
+        const token = this.authService.getToken();
+        if (token) {
+            return this.http.get<Ledger>(`${this.apiUrl}/ledgers/${id}`);
+        }
+
+        return new Observable<Ledger>();
+    }
+
     transferFunds(fromLedgerId: number, toLedgerId: number, amount: number): Observable<unknown> {
         const payload = {
             fromLedgerId,
