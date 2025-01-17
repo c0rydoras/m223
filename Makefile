@@ -18,7 +18,7 @@ cli: ./backend/Bank.Cli/appsettings.json ensure-mariadb-up ## Run the Cli locall
 
 .PHONY: ensure-mariadb-up
 ensure-mariadb-up: .env ## Ensure mariadb container is running
-	@docker compose up mariadb
+	@docker compose up -d mariadb
 
 .PHONY: frontend
 frontend: ## Run frontend container
