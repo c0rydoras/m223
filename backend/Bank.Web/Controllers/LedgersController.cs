@@ -62,4 +62,30 @@ public class LedgersController(ILedgerRepository ledgerRepository) : ControllerB
         });
     }
 
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Administrators")]
+    public async Task<IActionResult> Delete(int id)
+    {
+
+        return await Task.Run(() =>
+        {
+            IActionResult response = Ok();
+
+            try
+            {
+                ledgerRepository.Delete(id);
+            }
+            catch (ConstraintException ce)
+            {
+                return BadRequest(ce.Message);
+            }
+            catch (Exception)
+            {
+                response = Conflict();
+            }
+
+            return response;
+        });
+    }
+
 }
