@@ -11,4 +11,5 @@ public interface ILedgerRepository
     Ledger SelectOne(int id);
     void Update(Ledger ledger);
     void Create(String name);
+    void Delete(int id);
 }

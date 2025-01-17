@@ -92,4 +92,12 @@ public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> d
         context.Add(ledger);
         context.SaveChanges();
     }
+
+    public void Delete(int id)
+    {
+        var ledger = new Ledger{Id=id};
+        context.Ledgers.Attach(ledger);
+        context.Ledgers.Remove(ledger);
+        context.SaveChanges();
+    }
 }
