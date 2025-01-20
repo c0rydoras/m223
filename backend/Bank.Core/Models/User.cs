@@ -1,6 +1,10 @@
 ﻿namespace Bank.Core.Models;
 
-public enum Roles { Administrators, Users }
+public enum Roles
+{
+    Administrators,
+    Users,
+}
 
 public class User
 {

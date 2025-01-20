@@ -10,7 +10,11 @@ namespace SingleUserTests.Booking
         private readonly AppDbContext _context;
         private readonly IServiceProvider _serviceProvider;
 
-        public MultiUserBookingServiceTests(AppDbContext context, ITestDatabaseSeeder testDatabaseSeeder, IServiceProvider serviceProvider)
+        public MultiUserBookingServiceTests(
+            AppDbContext context,
+            ITestDatabaseSeeder testDatabaseSeeder,
+            IServiceProvider serviceProvider
+        )
         {
             _context = context;
             _serviceProvider = serviceProvider;
@@ -34,7 +38,11 @@ namespace SingleUserTests.Booking
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 var bookingRepository = new BookingRepository(dbContext);
                 var ledgerRepository = new LedgerRepository(dbContext);
-                var bookingService = new BookingService(bookingRepository, ledgerRepository, dbContext);
+                var bookingService = new BookingService(
+                    bookingRepository,
+                    ledgerRepository,
+                    dbContext
+                );
                 Random random = new Random();
                 for (int i = 0; i < numberOfBookings; i++)
                 {

@@ -18,41 +18,47 @@ public static class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll", corsPolicyBuilder =>
-            {
-                corsPolicyBuilder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            });
+            options.AddPolicy(
+                "AllowAll",
+                corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                }
+            );
         });
-            
-        builder.Services.Configure<JwtSettings>(
-            builder.Configuration.GetSection("JwtSettings")
-        );
-            
+
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
         builder.Services.Configure<DatabaseSettings>(
             builder.Configuration.GetSection("DatabaseSettings")
         );
-            
-        builder.Services
-            .AddAuthentication(x =>
+
+        builder
+            .Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(x =>
             {
-                var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+                var jwtSettings = builder
+                    .Configuration.GetSection("JwtSettings")
+                    .Get<JwtSettings>();
 
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.ASCII.GetBytes(jwtSettings?.PrivateKey ?? throw new InvalidOperationException("JwtSettings:PrivateKey is null"))
-                        ),
+                        Encoding.ASCII.GetBytes(
+                            jwtSettings?.PrivateKey
+                                ?? throw new InvalidOperationException(
+                                    "JwtSettings:PrivateKey is null"
+                                )
+                        )
+                    ),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
                 };
             });
         builder.Services.AddAuthorization();
@@ -62,20 +68,14 @@ public static class Program
         builder.Services.AddTransient<ILoginService, LoginService>();
         builder.Services.AddTransient<IBookingRepository, BookingRepository>();
         builder.Services.AddTransient<IBookingService, BookingService>();
-            
+
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1",
-                new OpenApiInfo
-                {
-                    Title = "My API - V1",
-                    Version = "v1"
-                }
-            );
-                
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API - V1", Version = "v1" });
+
             var securityScheme = new OpenApiSecurityScheme
             {
                 Name = "JWT Authentication",
@@ -83,7 +83,7 @@ public static class Program
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.Http,
                 Scheme = "bearer",
-                BearerFormat = "JWT"
+                BearerFormat = "JWT",
             };
 
             c.AddSecurityDefinition("Bearer", securityScheme);
@@ -96,17 +96,16 @@ public static class Program
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
+                            Id = "Bearer",
+                        },
                     },
                     []
-                }
+                },
             };
 
             c.AddSecurityRequirement(securityRequirement);
         });
-            
-            
+
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseMySql(
                 builder.Configuration.GetSection("DatabaseSettings:ConnectionString").Value,
@@ -114,7 +113,7 @@ public static class Program
                 sqlOptions => sqlOptions.MigrationsAssembly("Bank.Web")
             )
         );
-            
+
         var app = builder.Build();
         app.UseCors("AllowAll");
         app.UseSwagger();
@@ -133,7 +132,7 @@ public static class Program
 
             try
             {
-                var databaseSeeder = services.GetRequiredService<IDatabaseSeeder>();     
+                var databaseSeeder = services.GetRequiredService<IDatabaseSeeder>();
                 Console.WriteLine("Initializing database.");
                 databaseSeeder.Initialize();
                 Console.WriteLine("Seeding data.");
@@ -144,7 +143,7 @@ public static class Program
                 Console.WriteLine($"Error during startup: {ex.Message}");
             }
         }
-            
+
         app.Run();
     }
 }

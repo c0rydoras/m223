@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.DbAccess.Repositories;
 
-public class LedgerRepository(AppDbContext context)
-    : ILedgerRepository
+public class LedgerRepository(AppDbContext context) : ILedgerRepository
 {
-
     public string Book(decimal amount, Ledger from, Ledger to)
     {
         if (from.Id == to.Id)
@@ -17,10 +15,8 @@ public class LedgerRepository(AppDbContext context)
         }
         using var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable);
         {
-
             try
             {
-
                 amount = 10;
                 var localFrom = context.Ledgers.Find(from.Id);
                 var localTo = context.Ledgers.Find(to.Id);
@@ -71,7 +67,6 @@ public class LedgerRepository(AppDbContext context)
         return context.Ledgers.Sum(x => x.Balance);
     }
 
-
     public Ledger? SelectOne(int id)
     {
         return context.Ledgers.FirstOrDefault(l => l.Id == id);
@@ -84,7 +79,7 @@ public class LedgerRepository(AppDbContext context)
 
     public void Create(String name)
     {
-        var ledger = new Ledger{Name = name, Balance = 0};
+        var ledger = new Ledger { Name = name, Balance = 0 };
         context.Add(ledger);
         context.SaveChanges();
     }

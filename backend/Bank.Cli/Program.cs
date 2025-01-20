@@ -9,10 +9,14 @@ using Microsoft.Extensions.Options;
 
 var appsettingsPath = Environment.GetCommandLineArgs()[0].Split("bin")[0] + "appsettings.json";
 
-var configuration = new ConfigurationManager().AddJsonFile(appsettingsPath, optional: false, reloadOnChange: true).Build();
+var configuration = new ConfigurationManager()
+    .AddJsonFile(appsettingsPath, optional: false, reloadOnChange: true)
+    .Build();
 var services = new ServiceCollection();
 
-var dbSettings = configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>() ?? throw new InvalidOperationException();
+var dbSettings =
+    configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>()
+    ?? throw new InvalidOperationException();
 var options = Options.Create(dbSettings); // this is needed to ensure compatability with the web application
 services.AddSingleton(options);
 
@@ -50,7 +54,6 @@ catch (Exception ex)
     Console.WriteLine(ex.Message);
 }
 
-
 Console.WriteLine();
 Console.WriteLine("All Ledgers:");
 var allLedgers = ledgerRepository.GetAllLedgers();
@@ -58,7 +61,6 @@ foreach (var ledger in allLedgers)
 {
     Console.WriteLine($"ID: {ledger.Id} Name: {ledger.Name} Balance: {ledger.Balance}.");
 }
-
 
 Console.WriteLine();
 Console.WriteLine("Getting total money in system at the start.");

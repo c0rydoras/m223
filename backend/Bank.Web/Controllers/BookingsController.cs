@@ -11,14 +11,17 @@ namespace Bank.Web.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class BookingsController(IBookingService bookingService, IBookingRepository bookingRepository) : ControllerBase
+public class BookingsController(
+    IBookingService bookingService,
+    IBookingRepository bookingRepository
+) : ControllerBase
 {
     [HttpGet]
     [Authorize(Roles = "Administrators,Users")]
     public IEnumerable<Booking> Get()
     {
         var allBookings = bookingRepository.GetAllBookings();
-        return allBookings ;
+        return allBookings;
     }
 
     [HttpGet("for/{id:int}")]
@@ -31,7 +34,9 @@ public class BookingsController(IBookingService bookingService, IBookingReposito
 
     [HttpPost]
     [Authorize(Roles = "Administrators")]
-    public async Task<IActionResult> Post([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] BookingDto booking)
+    public async Task<IActionResult> Post(
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] BookingDto booking
+    )
     {
         return await Task.Run(() =>
         {
@@ -44,11 +49,12 @@ public class BookingsController(IBookingService bookingService, IBookingReposito
             catch (ConstraintException ce)
             {
                 return BadRequest(ce.Message);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 response = Conflict();
             }
-            
+
             // Rufe "Book" im "BookingRepository" auf.
             // Noch besser wäre es, wenn du einen Service verwenden würdest, der die Geschäftslogik enthält.
             // Gib je nach Erfolg OK() oder Conflict() zurück
