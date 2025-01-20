@@ -3,5 +3,4 @@
 public class LedgerDto
 {
     public string name { get; set; }
-    
 }

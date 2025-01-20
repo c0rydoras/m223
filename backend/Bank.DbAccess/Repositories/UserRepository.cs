@@ -8,17 +8,16 @@ public class UserRepository(AppDbContext context) : IUserRepository
 {
     public User? Authenticate(string? username, string? password)
     {
-        var user = context.Users
-            .FirstOrDefault(u => u.Username == username);
+        var user = context.Users.FirstOrDefault(u => u.Username == username);
 
         if (user == null || !PasswordHelper.VerifyPassword(password, user))
         {
             return null;
         }
-        
+
         return user;
     }
-    
+
     public User SelectOne(int id)
     {
         var user = context.Users.FirstOrDefault(u => u.Id == id);
@@ -45,7 +44,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
         context.SaveChanges();
     }
-    
+
     public User Insert(User user)
     {
         context.Users.Add(user);

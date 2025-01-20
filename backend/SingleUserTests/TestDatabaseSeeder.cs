@@ -23,8 +23,18 @@ public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
     {
         var seedUsers = new List<User>
         {
-            new() { Username = "admin", PasswordHash = PasswordHelper.HashAndSaltPassword("adminpass"), Role = Roles.Administrators },
-            new() { Username = "testuser", PasswordHash = PasswordHelper.HashAndSaltPassword("testuserpass"), Role = Roles.Users },
+            new()
+            {
+                Username = "admin",
+                PasswordHash = PasswordHelper.HashAndSaltPassword("adminpass"),
+                Role = Roles.Administrators,
+            },
+            new()
+            {
+                Username = "testuser",
+                PasswordHash = PasswordHelper.HashAndSaltPassword("testuserpass"),
+                Role = Roles.Users,
+            },
         };
 
         context.Users.AddRange(seedUsers);

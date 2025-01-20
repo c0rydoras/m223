@@ -13,12 +13,12 @@ namespace LoadTest.Cli
     {
         private static HttpClient client = new HttpClient();
         private static string BASE_URL = "http://localhost:5000/api/v1";
-        
+
         static async Task Main(string[] args)
         {
             using var httpClient = new HttpClient();
             var random = new Random();
-            
+
             string jwt = await Login("admin", "adminpass");
             var ledgers = await getAllLedgers(jwt);
             var totalMoneyStart = ledgers.Sum(l => l.Balance);
@@ -27,22 +27,34 @@ namespace LoadTest.Cli
                 Console.WriteLine(ledger.Name);
             }
 
-            
-            var scenario = Scenario.Create("http_scenario", async context =>
-                {
-                    var request =
-                        Http.CreateRequest("GET", "http://localhost:5000/api/v1/bankinfo ")
+            var scenario = Scenario
+                .Create(
+                    "http_scenario",
+                    async context =>
+                    {
+                        var request = Http.CreateRequest(
+                                "GET",
+                                "http://localhost:5000/api/v1/bankinfo "
+                            )
                             .WithHeader("Accept", "text/html");
-                    
-                    var response = await makeBooking(ledgers.ElementAt(random.Next(0,ledgers.Count)).Id,ledgers.ElementAt(random.Next(0,ledgers.Count)).Id,10,jwt);
 
-                    return response;
-                })
+                        var response = await makeBooking(
+                            ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
+                            ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
+                            10,
+                            jwt
+                        );
+
+                        return response;
+                    }
+                )
                 .WithoutWarmUp()
                 .WithLoadSimulations(
-                    Simulation.Inject(rate: 100, 
+                    Simulation.Inject(
+                        rate: 100,
                         interval: TimeSpan.FromSeconds(1),
-                        during: TimeSpan.FromSeconds(30))
+                        during: TimeSpan.FromSeconds(30)
+                    )
                 );
 
             NBomberRunner
@@ -51,12 +63,14 @@ namespace LoadTest.Cli
                 .WithReportFolder("fetch_users_reports")
                 .WithReportFormats(ReportFormat.Html)
                 .Run();
-            
+
             ledgers = await getAllLedgers(jwt);
             var totalMoneyEnd = ledgers.Sum(l => l.Balance);
             var moneyDifference = totalMoneyStart - totalMoneyEnd;
-            
-            Console.WriteLine($"At the start the total money was: {totalMoneyStart}. After the test the total money was: {totalMoneyEnd}");
+
+            Console.WriteLine(
+                $"At the start the total money was: {totalMoneyStart}. After the test the total money was: {totalMoneyEnd}"
+            );
             Console.WriteLine($"The difference is: {moneyDifference}");
             if (moneyDifference == 0)
             {
@@ -66,31 +80,31 @@ namespace LoadTest.Cli
             {
                 Console.WriteLine("The total amount of money changed :((");
             }
-            
+
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
 
-        static private async Task< string> Login(string user, string password)
+        private static async Task<string> Login(string user, string password)
         {
             var map = new LoginDTO();
             map.Username = user;
             map.Password = password;
-            
+
             var response = await client.PostAsJsonAsync($"{BASE_URL}/Login", map);
             if (response.IsSuccessStatusCode)
             {
-               var parsedResponse = await response.Content.ReadFromJsonAsync<TokenDTO>();
-               return parsedResponse!.Token;
+                var parsedResponse = await response.Content.ReadFromJsonAsync<TokenDTO>();
+                return parsedResponse!.Token;
             }
 
             throw new HttpRequestException(response.ReasonPhrase);
         }
-        
+
         private static async Task<List<Ledger>> getAllLedgers(string jwt)
         {
             List<Ledger> allLedgers = [];
-            
+
             var request = new HttpRequestMessage(HttpMethod.Get, $"{BASE_URL}/Ledgers");
             request.Headers.Add("Accept", "text/plain");
             request.Headers.Add("Authorization", $"Bearer {jwt}");
@@ -99,16 +113,21 @@ namespace LoadTest.Cli
 
             var serializerOptions = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
             };
 
             var responseJson = await response.Content.ReadAsStringAsync();
             allLedgers = JsonSerializer.Deserialize<List<Ledger>>(responseJson, serializerOptions)!;
-            
+
             return allLedgers;
         }
 
-        public static Task<Response<HttpResponseMessage>> makeBooking(int sourceId, int destinationId, decimal amount,string token)
+        public static Task<Response<HttpResponseMessage>> makeBooking(
+            int sourceId,
+            int destinationId,
+            decimal amount,
+            string token
+        )
         {
             var dto = new BookingDto();
             dto.SourceId = sourceId;
@@ -120,12 +139,12 @@ namespace LoadTest.Cli
                 .WithHeader("Accept", "application/json")
                 .WithHeader("Authorization", $"Bearer {token}")
                 .WithBody(json);
-            
-                var response = Http.Send(client,request);
 
-                return response; 
-        } 
-            
+            var response = Http.Send(client, request);
+
+            return response;
+        }
+
         private class LoginDTO
         {
             public String Username { get; set; }
@@ -137,8 +156,4 @@ namespace LoadTest.Cli
             public String Token { get; set; }
         }
     }
-    
-
-
-
 }

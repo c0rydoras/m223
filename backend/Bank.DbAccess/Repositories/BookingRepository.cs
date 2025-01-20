@@ -1,8 +1,8 @@
 ﻿using Bank.Core.Models;
 using Bank.DbAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Bank.DbAccess.Repositories;
 
@@ -23,9 +23,11 @@ public class BookingRepository(AppDbContext context) : IBookingRepository
         return context.Bookings;
     }
 
-
     public IEnumerable<Booking> GetBookingsForLedger(int id)
     {
-        return context.Bookings.Include(b => b.Source).Include(b => b.Destination).Where(b => b.SourceId == id || b.DestinationId == id);
+        return context
+            .Bookings.Include(b => b.Source)
+            .Include(b => b.Destination)
+            .Where(b => b.SourceId == id || b.DestinationId == id);
     }
 }
