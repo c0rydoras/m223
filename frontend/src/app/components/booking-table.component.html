@@ -18,10 +18,14 @@
                     {{ booking.amount | currency }}
                 </td>
                 <td [class.text-neutral-600]="biasLedger ? biasLedger.id === booking.destinationId : false">
-                    <a [routerLink]="['/ledgers', booking.sourceId]">{{ booking.source?.name }}</a>
+                    <a [routerLink]="booking.sourceId ? ['/ledgers', booking.sourceId] : null">{{
+                        booking.source?.name ?? 'Deleted Ledger'
+                    }}</a>
                 </td>
                 <td [class.text-neutral-600]="biasLedger ? biasLedger.id === booking.sourceId : false">
-                    <a [routerLink]="['/ledgers', booking.destinationId]">{{ booking.destination?.name }}</a>
+                    <a [routerLink]="booking.destinationId ? ['/ledgers', booking.destinationId] : null">{{
+                        booking.destination?.name ?? 'Deleted Ledger'
+                    }}</a>
                 </td>
                 <td>{{ booking.timestamp | date: 'HH:mm:ss YYYY-MM-dd' }}</td>
             </tr>
