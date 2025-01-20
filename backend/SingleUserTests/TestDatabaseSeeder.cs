@@ -49,14 +49,14 @@ public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
             {
                 SourceId = 1,
                 DestinationId = 2,
-                Amount = 3
+                Amount = 3,
             },
             new()
             {
                 SourceId = 2,
                 DestinationId = 1,
-                Amount = 10
-            }
+                Amount = 10,
+            },
         };
         context.Bookings.AddRange(seedBookings);
         context.SaveChanges();

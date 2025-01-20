@@ -26,8 +26,11 @@ public class BookingRepositoryTests
     {
         var allBookings = _bookingRepository.GetAllBookings().ToList();
         var bookingsFromLedger = _bookingRepository.GetBookingsForLedger(ledgerId);
-        
-        Assert.Equivalent(allBookings.Where(b => b.SourceId == ledgerId || b.DestinationId == ledgerId), bookingsFromLedger);
+
+        Assert.Equivalent(
+            allBookings.Where(b => b.SourceId == ledgerId || b.DestinationId == ledgerId),
+            bookingsFromLedger
+        );
     }
 
     [Theory]

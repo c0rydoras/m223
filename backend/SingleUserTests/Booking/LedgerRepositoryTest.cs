@@ -33,13 +33,13 @@ public class LedgerRepositoryTest
     {
         var ledger = _ledgerRepository.SelectOne(ledgerId);
         var ledgerBookings = _bookingRepository.GetBookingsForLedger(ledgerId);
-            
+
         Assert.IsType<Ledger>(ledger);
-        
+
         _ledgerRepository.Delete(ledger);
 
         Assert.Null(_ledgerRepository.SelectOne(ledgerId));
-        
+
         foreach (var ledgerBooking in ledgerBookings)
         {
             _context.Bookings.Entry(ledgerBooking).Reload();
@@ -52,12 +52,14 @@ public class LedgerRepositoryTest
     [InlineData(39)]
     public void Delete_LedgerNotFound(int ledgerId)
     {
-        Assert.Throws<DbUpdateConcurrencyException>(()=>_ledgerRepository.Delete(new Ledger { Id = ledgerId }));
+        Assert.Throws<DbUpdateConcurrencyException>(
+            () => _ledgerRepository.Delete(new Ledger { Id = ledgerId })
+        );
     }
 
     [Fact]
     public void Delete_LedgerNull()
     {
-        Assert.Throws<ArgumentNullException>(()=>_ledgerRepository.Delete(null));
+        Assert.Throws<ArgumentNullException>(() => _ledgerRepository.Delete(null));
     }
 }
