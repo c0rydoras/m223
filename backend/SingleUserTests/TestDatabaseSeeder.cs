@@ -41,6 +41,27 @@ public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
         context.SaveChanges();
     }
 
+    public void SeedBookings()
+    {
+        var seedBookings = new List<Bank.Core.Models.Booking>()
+        {
+            new()
+            {
+                SourceId = 1,
+                DestinationId = 2,
+                Amount = 3
+            },
+            new()
+            {
+                SourceId = 2,
+                DestinationId = 1,
+                Amount = 10
+            }
+        };
+        context.Bookings.AddRange(seedBookings);
+        context.SaveChanges();
+    }
+
     public void Initialize()
     {
         context.Database.EnsureDeleted();
@@ -51,5 +72,6 @@ public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
     {
         SeedLedgers();
         SeedUsers();
+        SeedBookings();
     }
 }
