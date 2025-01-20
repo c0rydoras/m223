@@ -21,6 +21,5 @@ public class Booking
     public Ledger? Source { get; set; }
     public Ledger? Destination { get; set; }
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime Timestamp { get; set; }
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }
