@@ -21,12 +21,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasOne(e => e.Source)
                 .WithMany()
                 .HasForeignKey(e => e.SourceId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
                 
             entity.HasOne(e => e.Destination)
                 .WithMany()
                 .HasForeignKey(e => e.DestinationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
         });
             
         modelBuilder.Entity<User>(entity =>

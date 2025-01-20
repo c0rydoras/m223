@@ -11,10 +11,10 @@ public class Booking
     public int Id { get; set; }
         
     [ForeignKey("Source")]
-    public int SourceId { get; set; }
+    public int? SourceId { get; set; }
     
     [ForeignKey("Destination")]
-    public int DestinationId { get; set; }
+    public int? DestinationId { get; set; }
         
     public decimal Amount { get; set; }
         
