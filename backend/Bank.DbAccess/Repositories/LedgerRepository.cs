@@ -75,9 +75,9 @@ public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> d
     }
 
 
-    public Ledger SelectOne(int id)
+    public Ledger? SelectOne(int id)
     {
-        return context.Ledgers.First(l => l.Id == id);
+        return context.Ledgers.FirstOrDefault(l => l.Id == id);
     }
 
     public void Update(Ledger ledger)
@@ -93,10 +93,8 @@ public class LedgerRepository(AppDbContext context, IOptions<DatabaseSettings> d
         context.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(Ledger ledger)
     {
-        var ledger = new Ledger{Id=id};
-        context.Ledgers.Attach(ledger);
         context.Ledgers.Remove(ledger);
         context.SaveChanges();
     }
