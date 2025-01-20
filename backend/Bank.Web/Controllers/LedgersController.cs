@@ -22,17 +22,25 @@ public class LedgersController(ILedgerRepository ledgerRepository) : ControllerB
 
     [HttpGet("{id:int}")]
     [Authorize(Roles = "Administrators,Users")]
-    public Ledger? Get(int id)
+    public IActionResult Get(int id)
     {
         var ledger = ledgerRepository.SelectOne(id);
-        return ledger;
+        if (ledger == null) {
+            return NotFound();
+        }
+        return Ok(ledger);
     }
 
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Administrators")]
-    public void Put(int id, [FromBody] Ledger ledger)
+    public IActionResult Put(int id, [FromBody] Ledger ledger)
     {
+        var _ledger = ledgerRepository.SelectOne(id);
+        if (_ledger == null) {
+            return NotFound();
+        }
         ledgerRepository.Update(ledger);
+        return Ok();
     }
 
 
@@ -71,9 +79,14 @@ public class LedgersController(ILedgerRepository ledgerRepository) : ControllerB
         {
             IActionResult response = Ok();
 
+            var ledger = ledgerRepository.SelectOne(id);
+            if (ledger == null) {
+                return NotFound();
+            }
+
             try
             {
-                ledgerRepository.Delete(id);
+                ledgerRepository.Delete(ledger);
             }
             catch (ConstraintException ce)
             {
