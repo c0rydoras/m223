@@ -1,3 +1,81 @@
+### Dokumentation der implementierten Prozess und der Überlegungen
+
+**Herausforderung 1**
+
+Unsere erste grosse Herausforderung war, dass die Transactions mit EF-Core nicht
+richtig funktioniert haben. Entweder hat sich die Datenbank gelockt oder die Transactions
+schienen nichts bewirkt zu haben, wodurch sich der Geldbetrag trotz Transactions verändert hat.
+
+Wir haben ziemlich lange versucht das Problem zu lösen, aber kamen zuerst nicht zu einer zufriedenstellenden
+und funktionierenden Lösung. Das Problem hat sich jedoch später zum Teil von selbst gelöst, als wir zum Testing
+gekommen sind, denn da haben wir eine Sqlite DB eingesetzt, wo die Transactions plötzlich viel besser funktioniert
+haben. Darum sind wir dann später in der Produktionsumgebung auch auf Sqlite gewechselt, da MariaDB viel grössere Probleme
+machte.
+
+Mit Sqlite funktionieren die Tests und Lasttests nun besser und zuverlässiger. Zwar gibt es bei den concurrency Tests
+selten immer noch einen DB-Lock, meistens laufen sie aber durch.
+
+**Herausforderung 2**
+
+Ein grosses Problem auf das wir beim Testing gestossen sind, war die dependency-injection. Diese funktionert nicht nativ
+mit XUnit, was wir zu beginn jedoch nicht wussten. Da wir jedoch nicht mit Mocks arbeiten sollten, mussten wir dafür eine
+Lösung finden.
+
+Wir haben im Internet gesucht wie man dependency-injection in XUnit verwenden kann und sind dann schnell darauf gekommen,
+dass dafür ein externes Package notwendig ist. Davon gab es mehrere und wir haben uns für eines entschieden.
+
+Mit dem dependency-injection Package konnten wir die services, repositories etc. dann wie im backend in einem `Startup.cs`
+file laden und sie dann per dependency-injection verwenden.
+
+**Herausforderung 3**
+
+Beim Schreiben der load-tests mussten wir zuerst per `HttpClient` die Daten von der API abfragen. Dafür haben wir DTO-Klassen
+geschrieben. Jedoch hat die API zuerst nicht die richtigen Daten von uns bekommen, obwohl wir das DTO per JSON-serializer
+serialisiert haben.
+
+Nach längerem debuggen haben wir gemerkt, dass der JSON-Serializer die DTOs nicht richtig serialisiert, weil die Felder
+auf dem DTO keine getter und setter hatten.
+
+Nachdem wir getter und setter zu den Feldern des DTOs hinzugefügt hatten, hat das serializing funktioniert.
+
+### Dokumentation der Tests und der Testergebnisse.
+
+**Test 1 - MultiUserBookingServiceTests (TestBookingParallel)**
+
+In diesem Test haben wir getestet, ob die Applikation multi-user-fähig ist und mehrere Datenbankzugriffe auf einmal aushält.
+Dabei war vor allem wichtig, dass kein Geld verloren geht, wenn z.B. mal eine Transaction failed.
+
+Dieser Test wurde mit direktem Datenbankzugriff über den Kontext durchgeführt. Um mehrere user zu simulieren, haben wir die
+Methode, welche die Transaktionen durchführt, per multithreading mehrmals parallel ausgeführt. So wurden sehr viele bookings
+auf einmal durchgeführt.
+
+Bei MariaDB war das Resultat oft, dass sich die Geldmenge verändert hat oder die Transaktionen gar nicht funktioniert haben.
+Nachdem wir begonnen hatten sqlite zu verwenden, passed dieser Test nun meistens und kein Geld geht mehr verloren.
+
+**Test 2 - BookingServiceTests (SuccessfulBooking)**
+
+Mit diesem Test haben wir getestet, ob die Methode zum Geld überweisen richtig implementiert ist und das Geld richtig abgezogen
+und addiert wird.
+
+Der Test ist ein parametrisierter Test, was bedeutet, dass wir ihn mehrmals mit unterschiedlichen Werten ausführen. Zuerst wird
+die `Book` Method aufgerufen, mit dem Sender, dem Empfänger und dem Amount. Danach wird sichergestellt, dass dieser Methodenaufruf
+keine Exception geworfen hat. Zum Schluss wird aus der Datenbank gelesen und sichergestellt, dass die Geldbeträge richtig gespeichert
+wurden.
+
+Der Test hat gezeigt, dass die Buchungen bei uns richtig funktionieren und die Beträge richtig gesetzt werden.
+
+**Test 3 - LoadTest.Cli**
+
+Der Lasttest stellt sicher, dass unsere API resistent gegenüber einer Flut von plötzlichen Anfragen an den booking endpoint ist und
+auch hier nicht plötzlich Geld generiert oder verloren wird.
+
+Um den Test zu implementieren, haben wir ein Tool namens NBomber verwendet, welches uns erlaubt sehr viele Requests pro Sekunde abzusenden.
+Zudem haben wir zu Beginn und am Ende des Tests die Geldmenge ausgelesen und am Schluss sichergestellt, dass sich diese nicht verändert hat.
+
+Der Test hat ergeben, dass MariaDB recht schlecht mit der grossen Last klargekommen ist und sich die Geldmenge teilweise auch verändert hat.
+Als wir dann zu sqlite gewechselt sind, hat die Geldmenge sich nicht mehr verändert, sondern wir haben nur selten die erwarteten conflict Meldungen
+erhalten.
+
 ### Teilaufgabe 1 - Analyse
 
 Übertrag von Konto Quelle auf Konto Ziel:
@@ -20,7 +98,7 @@ Problem 3: Es kann sein, dass ein Benutzende ein Quellen Konto auswählt worauf 
 Lösung 1 & 2: Es sollten Transaktionen vom Typ serializable verwendet werden. Durch diese werden die Daten,
 auf die Zugegriffen wurde, gelockt, was dazu führt, dass andere Prozesse diese nicht verändern können.
 
-Lösung 3: Die Authorisierung stellt sicher, dass Benutzende nur auf Konti zugreifen können, die ihnen auch
+Lösung 3: Die Authorisation stellt sicher, dass Benutzende nur auf Konti zugreifen können, die ihnen auch
 wirklich gehören.
 
 
