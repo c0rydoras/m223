@@ -28,4 +28,20 @@ export class AuthService {
         localStorage.removeItem(this.tokenKey);
         this.isAuthenticated = false;
     }
+
+    get user() {
+        const token = this.getToken();
+        if (!token) return;
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch {
+            this.clearToken();
+        }
+    }
+
+    get isAdmin() {
+        const user = this.user;
+        if (!user) return;
+        return this.user.role === 'Administrators';
+    }
 }

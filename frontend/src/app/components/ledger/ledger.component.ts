@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-ledger',
@@ -22,6 +23,7 @@ export class LedgerComponent implements OnInit {
 
     constructor(
         private ledgerService: LedgerService,
+        private authService: AuthService,
         private titleService: Title,
     ) {
         this.titleService.setTitle('Ledgers');
@@ -42,20 +44,7 @@ export class LedgerComponent implements OnInit {
         });
     }
 
-    makeTransfer(): void {
-        if (this.fromLedgerId !== null && this.toLedgerId !== null && this.amount !== null && this.amount > 0) {
-            this.ledgerService.transferFunds(this.fromLedgerId, this.toLedgerId, this.amount).subscribe({
-                next: () => {
-                    this.transferMessage = 'Transfer successful!';
-                    this.loadLedgers();
-                },
-                error: (error) => {
-                    this.transferMessage = `Transfer failed: ${error.error.message}`;
-                    console.error('Transfer error', error);
-                },
-            });
-        } else {
-            this.transferMessage = 'Please fill in all fields with valid data.';
-        }
+    get isAdmin() {
+        return this.authService.isAdmin;
     }
 }

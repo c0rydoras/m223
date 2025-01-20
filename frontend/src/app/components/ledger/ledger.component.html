@@ -9,8 +9,10 @@
             <strong>{{ ledger.name }}</strong
             >: {{ ledger.balance | currency }}
         </a>
-        <a [routerLink]="['/create']" class="p-2 border rounded bg-slate-500 hover:bg-slate-400 text-white hover:shadow"
-            >Create New Ledger</a
-        >
+        @if (isAdmin) {
+            <a [routerLink]="['/create']" class="p-2 border rounded bg-slate-500 hover:bg-slate-400 text-white hover:shadow"
+                >Create New Ledger</a
+            >
+        }
     </div>
 </div>

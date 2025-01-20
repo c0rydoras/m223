@@ -16,21 +16,11 @@ export class LedgerService {
     ) {}
 
     getLedgers(): Observable<Ledger[]> {
-        const token = this.authService.getToken();
-        if (token) {
-            return this.http.get<Ledger[]>(`${this.apiUrl}/ledgers`);
-        }
-
-        return new Observable<Ledger[]>();
+        return this.http.get<Ledger[]>(`${this.apiUrl}/ledgers`);
     }
 
     getLedger(id: string | number): Observable<Ledger> {
-        const token = this.authService.getToken();
-        if (token) {
-            return this.http.get<Ledger>(`${this.apiUrl}/ledgers/${id}`);
-        }
-
-        return new Observable<Ledger>();
+        return this.http.get<Ledger>(`${this.apiUrl}/ledgers/${id}`);
     }
 
     transferFunds(fromLedgerId: number, toLedgerId: number, amount: number): Observable<unknown> {
