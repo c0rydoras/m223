@@ -9,6 +9,7 @@ import { map } from 'rxjs';
 import { BookingService } from '../../services/booking.service';
 import { Booking } from '../../models/booking.interface';
 import { BookingTableComponent } from '../booking-table.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-ledger',
@@ -30,6 +31,7 @@ export class LedgerDetailComponent implements OnInit {
         private ledgerService: LedgerService,
         private bookingService: BookingService,
         private routerService: Router,
+        private authService: AuthService,
         private route: ActivatedRoute,
     ) {}
 
@@ -108,7 +110,6 @@ export class LedgerDetailComponent implements OnInit {
     }
 
     transfer(): void {
-        console.log('AY');
         this.errorMessage = '';
         this.loading = true;
         if (!this.isValid) return;
@@ -123,5 +124,9 @@ export class LedgerDetailComponent implements OnInit {
                 this.loading = false;
             },
         });
+    }
+
+    get isAdmin() {
+        return this.authService.isAdmin;
     }
 }

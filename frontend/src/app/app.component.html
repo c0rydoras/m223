@@ -3,7 +3,9 @@
         <h1 class="text-xl font-medium">Bank</h1>
     </a>
     <div class="[&>*]:place-self-center flex gap-2 hover:[&>*]:text-slate-600">
-        <a [routerLink]="['/booking']">booking</a>
+        @if (isAdmin) {
+            <a [routerLink]="['/booking']">booking</a>
+        }
         <a [routerLink]="['/ledgers']">ledgers</a>
     </div>
 </div>
