@@ -82,3 +82,5 @@ launchSettings.json
 .DS_Store
 
 appsettings.json
+
+Bank.Web/test*
