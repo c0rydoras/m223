@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SingleUserTests.Booking
 {
+    [Collection("test")]
     public class MultiUserBookingServiceTests
     {
         private readonly AppDbContext _context;
