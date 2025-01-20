@@ -83,4 +83,4 @@ launchSettings.json
 
 appsettings.json
 
-Bank.Web/test*
+Bank.Web/prod.sqlite*

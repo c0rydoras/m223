@@ -108,7 +108,7 @@ public static class Program
 
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(
-                "Filename=test",
+                "Filename=prod.sqlite",
                 sqlOptions => sqlOptions.MigrationsAssembly("Bank.Web")
             )
         );
