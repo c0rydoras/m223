@@ -107,9 +107,8 @@ public static class Program
         });
 
         builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(
-                builder.Configuration.GetSection("DatabaseSettings:ConnectionString").Value,
-                new MySqlServerVersion(new Version(11, 6, 2)),
+            options.UseSqlite(
+                "Filename=test",
                 sqlOptions => sqlOptions.MigrationsAssembly("Bank.Web")
             )
         );

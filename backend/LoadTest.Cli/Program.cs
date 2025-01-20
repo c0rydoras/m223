@@ -38,13 +38,9 @@ namespace LoadTest.Cli
                             )
                             .WithHeader("Accept", "text/html");
 
-                        var response = await makeBooking(
-                            ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
-                            ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
-                            10,
-                            jwt
-                        );
-
+                    
+                        var response = await makeBooking(ledgers.ElementAt(random.Next(0,ledgers.Count)).Id,ledgers.ElementAt(random.Next(0,ledgers.Count)).Id,0.1m,jwt);
+                        
                         return response;
                     }
                 )
