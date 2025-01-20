@@ -4,6 +4,7 @@ using Bank.Web.Services;
 
 namespace SingleUserTests.Booking
 {
+    [Collection("test")]
     public class BookingServiceTests
     {
         private readonly IBookingService _bookingService;
