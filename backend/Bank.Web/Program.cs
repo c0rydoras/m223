@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Bank.DbAccess;
 using Bank.DbAccess.Data;
@@ -49,6 +50,7 @@ public static class Program
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
+                    NameClaimType = ClaimTypes.NameIdentifier,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.ASCII.GetBytes(
                             jwtSettings?.PrivateKey
