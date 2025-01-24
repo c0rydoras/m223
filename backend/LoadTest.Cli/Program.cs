@@ -14,6 +14,7 @@ namespace LoadTest.Cli
         private static HttpClient client = new HttpClient();
         private static string BASE_URL = "http://localhost:5000/api/v1";
 
+        //Prüft die Transaktionssicherheit
         static async Task Main(string[] args)
         {
             using var httpClient = new HttpClient();
