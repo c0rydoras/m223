@@ -8,7 +8,7 @@ public class TestDatabaseSeeder(AppDbContext context) : ITestDatabaseSeeder
 {
     private void SeedLedgers()
     {
-        var seedLedgers = new List<Ledger>
+        var seedLedgers = new List<Bank.Core.Models.Ledger>
         {
             new() { Name = "Manitu AG", Balance = 1000 },
             new() { Name = "Chrysalkis GmbH", Balance = 1000 },

@@ -50,7 +50,7 @@ public class BookingsController(
             {
                 return BadRequest(ce.Message);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 response = Conflict();
             }

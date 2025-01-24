@@ -1,8 +1,6 @@
 ﻿using Bank.Core.Models;
 using Bank.DbAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Bank.DbAccess.Repositories;
 
