@@ -23,6 +23,7 @@ namespace SingleUserTests.Booking
             testDatabaseSeeder.Seed();
         }
 
+        //Prüft die Transaktionssicherheit
         [Fact]
         public void TestBookingParallel()
         {
