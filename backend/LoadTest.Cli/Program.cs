@@ -11,7 +11,7 @@ namespace LoadTest.Cli
 {
     class Program
     {
-        private static HttpClient client = new HttpClient();
+        private static HttpClient client = new();
         private static string BASE_URL = "http://localhost:5000/api/v1";
 
         //Prüft die Transaktionssicherheit

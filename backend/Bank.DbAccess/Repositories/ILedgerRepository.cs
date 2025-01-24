@@ -1,5 +1,4 @@
 using Bank.Core.Models;
-using MySqlConnector;
 
 namespace Bank.DbAccess.Repositories;
 
