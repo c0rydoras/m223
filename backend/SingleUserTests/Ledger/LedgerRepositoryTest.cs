@@ -1,9 +1,8 @@
-﻿using Bank.Core.Models;
-using Bank.DbAccess.Data;
+﻿using Bank.DbAccess.Data;
 using Bank.DbAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace SingleUserTests.Booking;
+namespace SingleUserTests.Ledger;
 
 [Collection("test")]
 public class LedgerRepositoryTest
@@ -34,7 +33,7 @@ public class LedgerRepositoryTest
         var ledger = _ledgerRepository.SelectOne(ledgerId);
         var ledgerBookings = _bookingRepository.GetBookingsForLedger(ledgerId);
 
-        Assert.IsType<Ledger>(ledger);
+        Assert.IsType<Bank.Core.Models.Ledger>(ledger);
 
         _ledgerRepository.Delete(ledger);
 
@@ -53,7 +52,7 @@ public class LedgerRepositoryTest
     public void Delete_LedgerNotFound(int ledgerId)
     {
         Assert.Throws<DbUpdateConcurrencyException>(
-            () => _ledgerRepository.Delete(new Ledger { Id = ledgerId })
+            () => _ledgerRepository.Delete(new Bank.Core.Models.Ledger() { Id = ledgerId })
         );
     }
 

@@ -1,5 +1,4 @@
-﻿using Bank.DbAccess.Data;
-using Bank.DbAccess.Repositories;
+﻿using Bank.DbAccess.Repositories;
 
 namespace SingleUserTests.Booking;
 

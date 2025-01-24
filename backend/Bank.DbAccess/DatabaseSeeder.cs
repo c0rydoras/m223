@@ -1,7 +1,6 @@
 ﻿using Bank.Core.Helper;
 using Bank.Core.Models;
 using Bank.DbAccess.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bank.DbAccess;
 

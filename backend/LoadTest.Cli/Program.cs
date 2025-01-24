@@ -33,12 +33,6 @@ namespace LoadTest.Cli
                     "http_scenario",
                     async context =>
                     {
-                        var request = Http.CreateRequest(
-                                "GET",
-                                "http://localhost:5000/api/v1/bankinfo "
-                            )
-                            .WithHeader("Accept", "text/html");
-
                         var response = await makeBooking(
                             ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
                             ledgers.ElementAt(random.Next(0, ledgers.Count)).Id,
