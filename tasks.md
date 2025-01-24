@@ -76,7 +76,7 @@ Der Test hat ergeben, dass MariaDB recht schlecht mit der grossen Last klargekom
 Als wir dann zu sqlite gewechselt sind, hat die Geldmenge sich nicht mehr verändert, sondern wir haben nur selten die erwarteten conflict Meldungen
 erhalten.
 
-### Teilaufgabe 1 - Analyse
+### Teilaufgabe 1 - Analyse (Transaktionsicherheit)
 
 Übertrag von Konto Quelle auf Konto Ziel:
 
@@ -101,6 +101,13 @@ auf die Zugegriffen wurde, gelockt, was dazu führt, dass andere Prozesse diese 
 Lösung 3: Die Authorisation stellt sicher, dass Benutzende nur auf Konti zugreifen können, die ihnen auch
 wirklich gehören.
 
+**Booking Repo Zusatz**
+
+Da das default Isolation level meist ReadCommited ist und im fall von sqlite sogar Serialzable ist und die Zusäzlichen funktionen lesen nur deshalb haben wir hier kein Problem.
+
+**Ledger Repo Zusatz**
+
+Das Löschen ansich hat keine Transaktionsprobleme, kann jedoch welche verursachen, allerdings ist die einzige Funktion welche ein Ledger liest und dann wieder schreibt, mit einem Serialazable Isolationslevel ausgestatet, was es unmöglich macht das ein Ledger während dieser Funktion gelöscht wird.
 
 ### Usertesting
 
